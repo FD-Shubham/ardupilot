@@ -364,7 +364,9 @@ void Tailsitter::output(void)
         if (quadplane.option_is_set(QuadPlane::OPTION::TAILSIT_Q_ASSIST_MOTORS_ONLY)) {
             // only use motors for Q assist, control surfaces remain under plane control
             // zero copter I terms and use plane
-            quadplane.attitude_control->reset_rate_controller_I_terms();
+            // quadplane.attitude_control->get_rate_roll_pid().reset_I(); don't relax roll, this is forward flight yaw
+            quadplane.attitude_control->get_rate_pitch_pid().reset_I();
+            quadplane.attitude_control->get_rate_yaw_pid().reset_I();
 
             // output tilt motors
             tilt_left = 0.0f;
